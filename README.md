@@ -26,4 +26,4 @@ $ npm start
 [![Screenshot](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot1.png)](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot1.png "Game View")
 
 ## <a name="Play">Play Space Invaders</a>
-* [Space Invaderser](http://adrianeyre.co.uk/space-invaders)
+* [Space Invaders](http://adrianeyre.co.uk/space-invaders)
