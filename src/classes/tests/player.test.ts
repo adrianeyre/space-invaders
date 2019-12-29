@@ -16,7 +16,7 @@ describe('Player', () => {
 		expect(player.zIndex).toEqual(6000);
 		expect(player.direction).toEqual(DirectionEnum.UP);
 		expect(player.score).toEqual(0);
-		expect(player.lives).toEqual(5);
+		expect(player.lives).toEqual(3);
 		expect(player.image).toEqual('player.png');
 		expect(player.isAlive).toEqual(true);
 	});

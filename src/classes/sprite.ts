@@ -6,6 +6,8 @@ import SpriteTypeEnum from './enums/sprite-type-enum';
 import ImageEnum from './enums/image-enum';
 
 import alien1 from '../images/alien1.png';
+import alien2 from '../images/alien2.png';
+import alien3 from '../images/alien3.png';
 
 export default class Sprite implements ISprite {
 	public key: string;
@@ -23,6 +25,8 @@ export default class Sprite implements ISprite {
 	readonly Z_INDEX: number = 5000;
 	readonly playerImages = {
 		alien1,
+		alien2,
+		alien3,
 	}
 
 	constructor(config: ISpriteProps) {

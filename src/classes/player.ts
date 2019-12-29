@@ -21,7 +21,7 @@ export default class Player implements IPlayer {
 	public image: string;
 	public isAlive: boolean;
 
-	readonly INITIAL_PLAYER_LIVES: number = 5;
+	readonly INITIAL_PLAYER_LIVES: number = 3;
 	readonly INITIAL_PLAYER_X: number = 7;
 	readonly INITIAL_PLAYER_Y: number = 13;
 	readonly X_OFFSET: boolean = false;

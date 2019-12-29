@@ -12,7 +12,27 @@ const sprites: ISpriteProps[] = [
 		direction: DirectionEnum.LEFT,
 		image: ImageEnum.ALIEN1,
 		speed: 50,
-		type: SpriteTypeEnum.ALIEN1
+		type: SpriteTypeEnum.ALIEN1,
+	},
+	{
+		key: 'alien2-1',
+		visable: true,
+		x: 2,
+		y: 2,
+		direction: DirectionEnum.LEFT,
+		image: ImageEnum.ALIEN2,
+		speed: 50,
+		type: SpriteTypeEnum.ALIEN2,
+	},
+	{
+		key: 'alien3-1',
+		visable: true,
+		x: 3,
+		y: 3,
+		direction: DirectionEnum.LEFT,
+		image: ImageEnum.ALIEN3,
+		speed: 50,
+		type: SpriteTypeEnum.ALIEN3,
 	},
 ]
 
