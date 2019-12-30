@@ -11,11 +11,13 @@ export default interface ISprite {
 	xOffset: boolean;
 	width: number;
 	height: number;
+	xStep: number;
+	yStep: number;
 	zIndex: number
 	direction: DirectionEnum | undefined;
 	image: ImageEnum;
 	speed: number | undefined;
 	type: SpriteTypeEnum;
-	move(playerX: number, playerY: number): PlayerResultEnum;
+	move(direction: DirectionEnum, playerX: number, playerY: number): PlayerResultEnum;
 	checkClash(playerX: number, playerY: number): PlayerResultEnum;
 }

@@ -5,9 +5,12 @@ import PlayerResultEnum from './enums/player-result-enum';
 import SpriteTypeEnum from './enums/sprite-type-enum';
 import ImageEnum from './enums/image-enum';
 
-import alien1 from '../images/alien1.png';
-import alien2 from '../images/alien2.png';
-import alien3 from '../images/alien3.png';
+import alien1a from '../images/alien1a.png';
+import alien1b from '../images/alien1b.png';
+import alien2a from '../images/alien2a.png';
+import alien2b from '../images/alien2b.png';
+import alien3a from '../images/alien3a.png';
+import alien3b from '../images/alien3b.png';
 import shield from '../images/shield.png';
 
 export default class Sprite implements ISprite {
@@ -17,6 +20,8 @@ export default class Sprite implements ISprite {
 	public y: number;
 	public width: number;
 	public height: number;
+	public xStep: number;
+	public yStep: number;
 	public xOffset: boolean;
 	public zIndex: number;
 	public direction: DirectionEnum | undefined;
@@ -24,34 +29,56 @@ export default class Sprite implements ISprite {
 	public speed: number | undefined;
 	public type: SpriteTypeEnum;
 
+	private imageOn: boolean;
+	private imageType: string;
+
 	readonly X_OFFSET: boolean = false;
 	readonly Z_INDEX: number = 5000;
+	readonly X_STEP: number = 5;
+	readonly Y_STEP: number = 5;
 	readonly playerImages = {
-		alien1,
-		alien2,
-		alien3,
-		shield,
+		alien1: [alien1a, alien1b],
+		alien2: [alien2a, alien2b],
+		alien3: [alien3a, alien3b],
+		shield: [shield, shield],
 	}
 
 	constructor(config: ISpriteProps) {
+		this.imageOn = true;
+		this.imageType = config.image;
 		this.key = config.key;
 		this.visable = config.visable;
 		this.x = config.x;
 		this.y = config.y;
 		this.width = config.width;
 		this.height = config.height;
+		this.xStep = this.X_STEP;
+		this.yStep = this.Y_STEP;
 		this.xOffset = config.xOffset ? config.xOffset : this.X_OFFSET;
 		this.zIndex = this.Z_INDEX;
 		this.direction = config.direction ? config.direction : undefined;
-		this.image = this.playerImages[config.image];
+		this.image = this.playerImages[this.imageType][this.imageOn ? 0 : 1];
 		this.type = config.type;
 	}
 
-	public move = (playerX: number, playerY: number): PlayerResultEnum => {
-		return PlayerResultEnum.NO_MOVE;
+	public move = (direction: DirectionEnum, playerX: number, playerY: number): PlayerResultEnum => {
+		switch (direction) {
+			case DirectionEnum.LEFT: this.x -= this.xStep; break;
+			case DirectionEnum.RIGHT: this.x += this.xStep; break;
+			case DirectionEnum.DOWN: this.y += this.yStep; break;
+		}
+
+		this.updateImage();
+
+		return this.checkClash(playerX, playerY);
 	}
 
 	public checkClash = (playerX: number, playerY: number): PlayerResultEnum => {
 		return PlayerResultEnum.NO_MOVE
+	}
+
+	private updateImage = () => {
+		this.imageOn = !this.imageOn;
+		this.image = this.playerImages[this.imageType][this.imageOn ? 0 : 1];
 	}
 }

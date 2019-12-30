@@ -32,16 +32,18 @@ describe('Sprite', () => {
 		expect(sprite.y).toEqual(10);
 		expect(sprite.width).toEqual(8);
 		expect(sprite.height).toEqual(8);
+		expect(sprite.xStep).toEqual(5);
+		expect(sprite.yStep).toEqual(5);
 		expect(sprite.xOffset).toEqual(false);
 		expect(sprite.zIndex).toEqual(5000);
 		expect(sprite.direction).toEqual(DirectionEnum.RIGHT);
-		expect(sprite.image).toEqual('alien1.png');
+		expect(sprite.image).toEqual('alien1a.png');
 		expect(sprite.type).toEqual(SpriteTypeEnum.ALIEN);
 	});
 
 	it('Should move sprite and not clash with player', () => {
 		const sprite = new Sprite(defaultConfig);
-		const result = sprite.move(1, 1);
+		const result = sprite.move(0, 1, 1);
 
 		expect(result).toEqual(PlayerResultEnum.NO_MOVE);
 	});

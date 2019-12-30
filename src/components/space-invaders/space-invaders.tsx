@@ -13,7 +13,7 @@ import './styles/space-invaders.scss';
 import PlayerResultEnum from 'classes/enums/player-result-enum';
 
 export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, IFSpaceInvadersState> {
-	private DEFAULT_TIMER_INTERVAL: number = 10;
+	private DEFAULT_TIMER_INTERVAL: number = 1000;
 	private SPRITE_BLOCKS_WIDTH: number = 143;
 	private SPRITE_BLOCKS_HEIGHT: number = 96;
 	private container: any;
@@ -134,7 +134,7 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 
 	private myTimer = (): void => {
 		const game = this.state.game
-		game.handleTimer();
+		game.handleTimer(this.SPRITE_BLOCKS_WIDTH, this.SPRITE_BLOCKS_HEIGHT);
 
 		this.setState(prev => ({ game }));
 	}
