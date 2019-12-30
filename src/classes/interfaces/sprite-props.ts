@@ -6,9 +6,10 @@ export default interface ISpriteProps {
 	visable: boolean;
 	x: number;
 	y: number;
+	width: number;
+	height: number;
 	xOffset?: boolean;
 	direction?: DirectionEnum;
 	image: string;
-	speed?: number;
 	type: SpriteTypeEnum;
 }

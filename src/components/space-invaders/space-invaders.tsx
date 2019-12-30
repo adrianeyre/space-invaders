@@ -14,6 +14,8 @@ import PlayerResultEnum from 'classes/enums/player-result-enum';
 
 export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, IFSpaceInvadersState> {
 	private DEFAULT_TIMER_INTERVAL: number = 10;
+	private SPRITE_BLOCKS_WIDTH: number = 143;
+	private SPRITE_BLOCKS_HEIGHT: number = 96;
 	private container: any;
 
 	constructor(props: ISpaceInvadersProps) {
@@ -97,8 +99,8 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 		const containerHeight = this.container && this.container.getBoundingClientRect().height;
 		let containerWidth = this.container && this.container.getBoundingClientRect().width;
 		if (containerWidth > containerHeight) containerWidth = containerHeight;
-		const spriteWidth = containerWidth / 14;
-		const spriteHeight = ((containerWidth / 100) * 85 ) / 13;
+		const spriteWidth = containerWidth / this.SPRITE_BLOCKS_WIDTH;
+		const spriteHeight = ((containerWidth / 100) * 85 ) / this.SPRITE_BLOCKS_HEIGHT;
 		this.setState(() => ({ spriteWidth, spriteHeight, containerWidth, containerHeight }))
 	}
 

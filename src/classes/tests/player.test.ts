@@ -8,10 +8,12 @@ describe('Player', () => {
 
 		expect(player.key).toEqual('player');
 		expect(player.visable).toEqual(true);
-		expect(player.x).toEqual(7);
-		expect(player.y).toEqual(13);
-		expect(player.initialPlayerX).toEqual(7);
-		expect(player.initialPlayerY).toEqual(13);
+		expect(player.x).toEqual(66);
+		expect(player.y).toEqual(92);
+		expect(player.width).toEqual(10);
+		expect(player.height).toEqual(4);
+		expect(player.initialPlayerX).toEqual(66);
+		expect(player.initialPlayerY).toEqual(92);
 		expect(player.xOffset).toEqual(false);
 		expect(player.zIndex).toEqual(6000);
 		expect(player.direction).toEqual(DirectionEnum.UP);
@@ -25,14 +27,14 @@ describe('Player', () => {
 		const player = new Player({});
 		player.move(DirectionEnum.RIGHT);
 
-		expect(player.x).toEqual(7);
+		expect(player.x).toEqual(66);
 	});
 
 	it('Should move player left one space', () => {
 		const player = new Player({});
 		player.move(DirectionEnum.LEFT);
 
-		expect(player.x).toEqual(7);
+		expect(player.x).toEqual(66);
 	});
 
 	it('Should reset player', () => {
@@ -41,17 +43,13 @@ describe('Player', () => {
 		player.y = 1;
 		player.resetPlayerToStart();
 
-		expect(player.x).toEqual(7);
-		expect(player.y).toEqual(13);
+		expect(player.x).toEqual(66);
+		expect(player.y).toEqual(92);
 	});
 
 	it('Should loose a life', () => {
 		const player = new Player({});
 
-		expect(player.lives).toEqual(5);
-		expect(player.looseLife()).toEqual(true);
-		expect(player.lives).toEqual(4);
-		expect(player.looseLife()).toEqual(true);
 		expect(player.lives).toEqual(3);
 		expect(player.looseLife()).toEqual(true);
 		expect(player.lives).toEqual(2);

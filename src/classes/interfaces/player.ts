@@ -6,6 +6,8 @@ export default interface IPlayer {
 	visable: boolean;
 	x: number;
 	y: number;
+	width: number;
+	height: number;
 	initialPlayerX: number;
 	initialPlayerY: number;
 	xOffset: boolean;

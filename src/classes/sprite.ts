@@ -8,12 +8,15 @@ import ImageEnum from './enums/image-enum';
 import alien1 from '../images/alien1.png';
 import alien2 from '../images/alien2.png';
 import alien3 from '../images/alien3.png';
+import shield from '../images/shield.png';
 
 export default class Sprite implements ISprite {
 	public key: string;
 	public visable: boolean;
 	public x: number;
 	public y: number;
+	public width: number;
+	public height: number;
 	public xOffset: boolean;
 	public zIndex: number;
 	public direction: DirectionEnum | undefined;
@@ -27,6 +30,7 @@ export default class Sprite implements ISprite {
 		alien1,
 		alien2,
 		alien3,
+		shield,
 	}
 
 	constructor(config: ISpriteProps) {
@@ -34,11 +38,12 @@ export default class Sprite implements ISprite {
 		this.visable = config.visable;
 		this.x = config.x;
 		this.y = config.y;
+		this.width = config.width;
+		this.height = config.height;
 		this.xOffset = config.xOffset ? config.xOffset : this.X_OFFSET;
 		this.zIndex = this.Z_INDEX;
 		this.direction = config.direction ? config.direction : undefined;
 		this.image = this.playerImages[config.image];
-		this.speed = config.speed;
 		this.type = config.type;
 	}
 

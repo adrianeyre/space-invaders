@@ -1,7 +1,6 @@
 enum StriteTypeEnum {
-	ALIEN1 = 0,
-	ALIEN2 = 1,
-	ALIEN3 = 2,
+	SHIELD = 0,
+	ALIEN = 1,
 }
 
 export default StriteTypeEnum;

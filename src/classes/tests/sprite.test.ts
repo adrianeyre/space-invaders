@@ -14,11 +14,12 @@ describe('Sprite', () => {
 			visable: true,
 			x: 10,
 			y: 10,
+			width: 8,
+			height: 8,
 			xOffset: false,
 			direction: DirectionEnum.RIGHT,
 			image: 'alien1',
-			speed: 10,
-			type: SpriteTypeEnum.ALIEN1,
+			type: SpriteTypeEnum.ALIEN,
 		}
 	})
 
@@ -29,12 +30,13 @@ describe('Sprite', () => {
 		expect(sprite.visable).toEqual(true);
 		expect(sprite.x).toEqual(10);
 		expect(sprite.y).toEqual(10);
+		expect(sprite.width).toEqual(8);
+		expect(sprite.height).toEqual(8);
 		expect(sprite.xOffset).toEqual(false);
 		expect(sprite.zIndex).toEqual(5000);
 		expect(sprite.direction).toEqual(DirectionEnum.RIGHT);
 		expect(sprite.image).toEqual('alien1.png');
-		expect(sprite.speed).toEqual(10);
-		expect(sprite.type).toEqual(SpriteTypeEnum.ALIEN1);
+		expect(sprite.type).toEqual(SpriteTypeEnum.ALIEN);
 	});
 
 	it('Should move sprite and not clash with player', () => {

@@ -9,6 +9,8 @@ export default interface ISprite {
 	x: number;
 	y: number;
 	xOffset: boolean;
+	width: number;
+	height: number;
 	zIndex: number
 	direction: DirectionEnum | undefined;
 	image: ImageEnum;
