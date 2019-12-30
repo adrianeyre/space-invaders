@@ -2,7 +2,7 @@ import React from 'react';
 import Game from '../../classes/game';
 import ISprite from '../../classes/interfaces/sprite';
 import ISpaceInvadersProps from './interfaces/space-invaders-props';
-import IFSpaceInvadersState from './interfaces/space-invaders-state';
+import ISpaceInvadersState from './interfaces/space-invaders-state';
 import GameStatusTop from '../game-status-top/game-status-top';
 import GameStatusBottom from '../game-status-bottom/game-status-bottom';
 import DrawSprite from '../draw-sprite/draw-sprite';
@@ -12,9 +12,9 @@ import MobileButtons from '../mobile-buttons/mobile-buttons';
 import './styles/space-invaders.scss';
 import PlayerResultEnum from 'classes/enums/player-result-enum';
 
-export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, IFSpaceInvadersState> {
+export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, ISpaceInvadersState> {
 	private DEFAULT_ALIEN_TIMER_INTERVAL: number = 1000;
-	private DEFAULT_BULLET_TIMER_INTERVAL: number = 100;
+	private DEFAULT_BULLET_TIMER_INTERVAL: number = 20;
 	private SPRITE_BLOCKS_WIDTH: number = 143;
 	private SPRITE_BLOCKS_HEIGHT: number = 96;
 	private container: any;
@@ -142,5 +142,10 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 		this.setState(prev => ({ game }));
 	}
 
-	private myBulletTimer = (): void => this.state.game.handleBullet();
+	private myBulletTimer = (): void => {
+		const game = this.state.game
+		game.handleBullet();
+
+		this.setState(prev => ({ game }));
+	}
 }

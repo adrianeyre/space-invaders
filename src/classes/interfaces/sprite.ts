@@ -11,6 +11,7 @@ export default interface ISprite {
 	xOffset: boolean;
 	width: number;
 	height: number;
+	score: number;
 	xStep: number;
 	yStep: number;
 	zIndex: number
@@ -18,6 +19,5 @@ export default interface ISprite {
 	image: ImageEnum;
 	speed: number | undefined;
 	type: SpriteTypeEnum;
-	move(direction: DirectionEnum, playerX: number, playerY: number): PlayerResultEnum;
-	checkClash(playerX: number, playerY: number): PlayerResultEnum;
+	move(direction: DirectionEnum, playerX: number, playerY: number, playerHeight: number, playerWidth: number, visableSprites: ISprite[]): PlayerResultEnum;
 }

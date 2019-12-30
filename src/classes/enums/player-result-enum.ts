@@ -1,6 +1,10 @@
 enum PlayerResultEnum {
 	NO_MOVE = 0,
 	DEAD = 1,
+	ALIEN1_POINTS = 2,
+	ALIEN2_POINTS = 3,
+	ALIEN3_POINTS = 4,
+	ALIEN4_POINTS = 5,
 	ENTER = 13,
 	SPACE_BAR = 32,
 	ARROW_RIGHT = 39,

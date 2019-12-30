@@ -25,14 +25,14 @@ describe('Player', () => {
 
 	it('Should move player right one space', () => {
 		const player = new Player({});
-		player.move(DirectionEnum.RIGHT);
+		player.move(DirectionEnum.RIGHT, 5);
 
 		expect(player.x).toEqual(66);
 	});
 
 	it('Should move player left one space', () => {
 		const player = new Player({});
-		player.move(DirectionEnum.LEFT);
+		player.move(DirectionEnum.LEFT, 5);
 
 		expect(player.x).toEqual(66);
 	});

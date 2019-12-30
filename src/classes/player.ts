@@ -23,7 +23,7 @@ export default class Player implements IPlayer {
 	public image: string;
 	public isAlive: boolean;
 
-	readonly X_STEP: number = 5;
+	readonly X_STEP: number = 1;
 	readonly INITIAL_PLAYER_LIVES: number = 3;
 	readonly INITIAL_PLAYER_X: number = 66;
 	readonly INITIAL_PLAYER_Y: number = 92;
@@ -82,4 +82,6 @@ export default class Player implements IPlayer {
 
 		return this.lives > 0;
 	}
+
+	public addScore = (extra: number): number => this.score += extra;
 }

@@ -10,6 +10,8 @@ export default interface ISpriteProps {
 	height: number;
 	xOffset?: boolean;
 	direction?: DirectionEnum;
+	score?: number;
+	movable?: boolean;
 	image: string;
 	type: SpriteTypeEnum;
 }

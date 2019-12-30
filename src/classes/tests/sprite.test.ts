@@ -19,7 +19,7 @@ describe('Sprite', () => {
 			xOffset: false,
 			direction: DirectionEnum.RIGHT,
 			image: 'alien1',
-			type: SpriteTypeEnum.ALIEN,
+			type: SpriteTypeEnum.ALIEN1,
 		}
 	})
 
@@ -33,17 +33,18 @@ describe('Sprite', () => {
 		expect(sprite.width).toEqual(8);
 		expect(sprite.height).toEqual(8);
 		expect(sprite.xStep).toEqual(5);
-		expect(sprite.yStep).toEqual(5);
+		expect(sprite.yStep).toEqual(2);
 		expect(sprite.xOffset).toEqual(false);
 		expect(sprite.zIndex).toEqual(5000);
 		expect(sprite.direction).toEqual(DirectionEnum.RIGHT);
 		expect(sprite.image).toEqual('alien1a.png');
-		expect(sprite.type).toEqual(SpriteTypeEnum.ALIEN);
+		expect(sprite.type).toEqual(SpriteTypeEnum.ALIEN1);
 	});
 
 	it('Should move sprite and not clash with player', () => {
 		const sprite = new Sprite(defaultConfig);
-		const result = sprite.move(0, 1, 1);
+		const sprites = [new Sprite(defaultConfig)]
+		const result = sprite.move(0, 1, 1, 1, 1, sprites);
 
 		expect(result).toEqual(PlayerResultEnum.NO_MOVE);
 	});

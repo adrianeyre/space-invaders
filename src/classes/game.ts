@@ -8,7 +8,6 @@ import ISpriteProps from './interfaces/sprite-props';
 import PlayerResultEnum from './enums/player-result-enum';
 import SpriteTypeEnum from './enums/sprite-type-enum';
 import DirectionEnum from './enums/direction-enum';
-import ImageEnum from './enums/image-enum';
 import ISpaceInvadersProps from '../components/space-invaders/interfaces/space-invaders-props';
 
 import * as spritesData from './data/sprites'
@@ -23,12 +22,17 @@ export default class Game implements IGame {
 	public iteration: number;
 	public isGameInPlay: boolean;
 
-	private SPRITE_BLOCKS_WIDTH: number = 143;
-	// private SPRITE_BLOCKS_HEIGHT: number = 96;
+	readonly SPRITE_BLOCKS_WIDTH: number = 143;
+	// readonly SPRITE_BLOCKS_HEIGHT: number = 96;
+	readonly SCORE_NEXT_LEVEL: number = 100;
+	readonly SCORE_ALIEN1: number = 40;
+	readonly SCORE_ALIEN2: number = 30;
+	readonly SCORE_ALIEN3: number = 20;
+	readonly SCORE_ALIEN4: number = 10;
 
 	constructor(config: ISpaceInvadersProps) {
 		this.player = new Player(config);
-		this.sprites = spritesData.default.map((sprite: ISpriteProps) => new Sprite(sprite));
+		this.sprites = this.resetSprites();
 		this.level = 1;
 		this.direction = DirectionEnum.RIGHT
 		this.isGameInPlay = false;
@@ -39,6 +43,16 @@ export default class Game implements IGame {
 		switch (playerResult) {
 			case PlayerResultEnum.NO_MOVE:
 				return;
+			case PlayerResultEnum.DEAD:
+				this.looseLife(); break;
+			case PlayerResultEnum.ALIEN1_POINTS:
+				this.player.addScore(this.SCORE_ALIEN1); break;
+			case PlayerResultEnum.ALIEN2_POINTS:
+				this.player.addScore(this.SCORE_ALIEN2); break;
+			case PlayerResultEnum.ALIEN3_POINTS:
+				this.player.addScore(this.SCORE_ALIEN3); break;
+			case PlayerResultEnum.ALIEN4_POINTS:
+				this.player.addScore(this.SCORE_ALIEN4); break;
 			case PlayerResultEnum.ARROW_RIGHT:
 				this.move(DirectionEnum.RIGHT); break;
 			case PlayerResultEnum.ARROW_LEFT:
@@ -50,7 +64,13 @@ export default class Game implements IGame {
 	}
 
 	public handleTimer = (): void => {
-		const aliveAliens = this.sprites.filter((sprite: ISprite) => sprite.visable && sprite.type === SpriteTypeEnum.ALIEN);
+		const aliveAliens = this.aliveAliens();
+
+		if (aliveAliens.length < 1) {
+			this.nextLevel();
+		}
+
+		const visableSprites = this.visableSprites();
 		const furthestRightAlien = maxBy(aliveAliens, (alien: ISprite) => alien.x);
 		const furthestLeftAlien = minBy(aliveAliens, (alien: ISprite) => alien.x);
 		let nextDirection = this.direction;
@@ -65,12 +85,19 @@ export default class Game implements IGame {
 			nextDirection = DirectionEnum.RIGHT
 		}
 
-		aliveAliens.forEach((sprite: ISprite) => sprite.move(this.direction, this.player.x, this.player.y));
+		aliveAliens.forEach((sprite: ISprite) => this.handleInput(sprite.move(this.direction, this.player.x, this.player.y, this.player.height, this.player.width, visableSprites)));
 		this.direction = nextDirection;
 	}
 
 	public handleBullet = () => {
+		const playerBullet = this.getPlayerBullet();
+		const visableSprites = this.visableSprites();
 
+		if (playerBullet && playerBullet.visable) {
+			const result = playerBullet.move(DirectionEnum.UP, this.player.x, this.player.y, this.player.height, this.player.width, visableSprites);
+
+			this.handleInput(result);
+		}
 	}
 
 	private move = (direction: DirectionEnum): void => {
@@ -79,20 +106,41 @@ export default class Game implements IGame {
 		this.handleInput(result);
 	}
 
-	private fire = () => {
-		const bullet = this.sprites.filter(( sprite: ISprite) => sprite.key === 'bullet');
+	private fire = (): void => {
+		const bullet = this.getPlayerBullet();
 
-		if (bullet.length > 0) return;
+		if (!bullet || bullet.visable) return;
 
-		this.sprites.push(new Sprite({
-			key: 'bullet',
-			visable: true,
-			x: this.player.x + this.player.width / 2,
-			y: this.player.y - 2,
-			width: 1,
-			height: 2,
-			image: ImageEnum.BULLET,
-			type: SpriteTypeEnum.BULLET,
-		}))
+		bullet.visable = true;
+		bullet.x = this.player.x + this.player.width / 2;
+		bullet.y = this.player.y - 2;
 	}
+
+	private nextLevel = () => {
+		this.level ++;
+		this.player.addScore(this.SCORE_NEXT_LEVEL);
+		this.sprites = this.resetSprites();
+	}
+
+	private looseLife = () => {
+		const bullet = this.getPlayerBullet();
+		if (bullet) bullet.visable = false;
+
+		this.isGameInPlay = this.player.looseLife();
+		this.player.resetPlayerToStart();
+		this.sprites = this.resetSprites();
+	}
+
+	private visableSprites = (): ISprite[] => this.sprites.filter((sprite: ISprite) => sprite.visable);
+	private getPlayerBullet = (): ISprite | undefined => this.sprites.find((sprite: ISprite) => sprite.key === 'bullet');
+	private resetSprites = (): ISprite[] => this.sprites = spritesData.default.map((sprite: ISpriteProps) => new Sprite(sprite));
+
+	private aliveAliens = (): ISprite[] => this.sprites.filter((sprite: ISprite) =>
+		sprite.visable && (
+			sprite.type === SpriteTypeEnum.ALIEN1 ||
+			sprite.type === SpriteTypeEnum.ALIEN2 ||
+			sprite.type === SpriteTypeEnum.ALIEN3 ||
+			sprite.type === SpriteTypeEnum.ALIEN4
+		)
+	);
 }

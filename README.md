@@ -23,7 +23,10 @@ $ npm start
 ```
 
 ## <a name="Shots">Screen Shots</a>
-[![Screenshot](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot1.png)](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot1.png "Game View")
+[![Screenshot](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot1.png)](https://raw.githubusercontent.com/adrianeyre/
+space-invaders/master/src/images/screenshot1.png "Game View")
+
+[![Screenshot](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot2.png)](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot2.png "Game View")
 
 ## <a name="Play">Play Space Invaders</a>
 * [Space Invaders](http://adrianeyre.co.uk/space-invaders)

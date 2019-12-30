@@ -24,6 +24,8 @@ export default class Sprite implements ISprite {
 	public xStep: number;
 	public yStep: number;
 	public xOffset: boolean;
+	public score: number;
+	public movable: boolean;
 	public zIndex: number;
 	public direction: DirectionEnum | undefined;
 	public image: ImageEnum;
@@ -36,7 +38,7 @@ export default class Sprite implements ISprite {
 	readonly X_OFFSET: boolean = false;
 	readonly Z_INDEX: number = 5000;
 	readonly X_STEP: number = 5;
-	readonly Y_STEP: number = 5;
+	readonly Y_STEP: number = 2;
 	readonly playerImages = {
 		alien1: [alien1a, alien1b],
 		alien2: [alien2a, alien2b],
@@ -56,28 +58,68 @@ export default class Sprite implements ISprite {
 		this.height = config.height;
 		this.xStep = this.X_STEP;
 		this.yStep = this.Y_STEP;
+		this.movable = config.movable ? config.movable : false;
 		this.xOffset = config.xOffset ? config.xOffset : this.X_OFFSET;
 		this.zIndex = this.Z_INDEX;
+		this.score = config.score ? config.score : 0;
 		this.direction = config.direction ? config.direction : undefined;
 		this.image = this.playerImages[this.imageType][this.imageOn ? 0 : 1];
 		this.type = config.type;
 	}
 
-	public move = (direction: DirectionEnum, playerX: number, playerY: number): PlayerResultEnum => {
+	public move = (direction: DirectionEnum, playerX: number, playerY: number, playerHeight: number, playerWidth: number, visableSprites: ISprite[]): PlayerResultEnum => {
+		if (!this.movable) return PlayerResultEnum.NO_MOVE;
+
 		switch (direction) {
+			case DirectionEnum.UP: this.y -= this.yStep; break;
+			case DirectionEnum.DOWN: this.y += this.yStep; break;
 			case DirectionEnum.LEFT: this.x -= this.xStep; break;
 			case DirectionEnum.RIGHT: this.x += this.xStep; break;
-			case DirectionEnum.DOWN: this.y += this.yStep; break;
 		}
+
+		if (this.y < 1) this.visable = false;
 
 		this.updateImage();
 
-		return this.checkClash(playerX, playerY);
+		return this.checkClash(playerX, playerY, playerHeight, playerWidth, visableSprites);
 	}
 
-	public checkClash = (playerX: number, playerY: number): PlayerResultEnum => {
+	private checkClash = (playerX: number, playerY: number, playerHeight: number, playerWidth: number, visableSprites: ISprite[]): PlayerResultEnum => {
+		if (this.isClashed('', playerX, playerY, playerHeight, playerWidth)) return PlayerResultEnum.DEAD;
+
+		const overlappingSprites = visableSprites.filter((sprite: ISprite) => this.isClashed(sprite.key, sprite.x, sprite.y, sprite.height, sprite.width));
+
+		if (overlappingSprites.length > 0) {
+			overlappingSprites[0].visable = false;
+			if (this.type === SpriteTypeEnum.BULLET) this.visable = false;
+
+			switch (overlappingSprites[0].type) {
+				case SpriteTypeEnum.ALIEN1: return PlayerResultEnum.ALIEN1_POINTS;
+				case SpriteTypeEnum.ALIEN2: return PlayerResultEnum.ALIEN2_POINTS;
+				case SpriteTypeEnum.ALIEN3: return PlayerResultEnum.ALIEN3_POINTS;
+				case SpriteTypeEnum.ALIEN4: return PlayerResultEnum.ALIEN4_POINTS;
+			}
+		}
+
 		return PlayerResultEnum.NO_MOVE
 	}
+
+	private isClashed = (key: string, x: number, y: number, height: number, width: number) =>
+	(
+		this.key !== key &&
+		this.x + this.width > x &&
+		this.x < x && 
+		this.y + this.height > y &&
+		this.y < y
+	)
+	||
+	(
+		this.key !== key &&
+		this.x >= x &&
+		this.x < x + width &&
+		this.y >= y &&
+		this.y < y + height
+	)
 
 	private updateImage = () => {
 		this.imageOn = !this.imageOn;

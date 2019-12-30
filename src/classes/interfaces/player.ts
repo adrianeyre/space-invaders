@@ -20,4 +20,5 @@ export default interface IPlayer {
 	move(direction: DirectionEnum, spriteBlocksWidth: number): PlayerResultEnum;
 	resetPlayerToStart(): void;
 	looseLife(): boolean;
+	addScore(extra: number): number
 }
