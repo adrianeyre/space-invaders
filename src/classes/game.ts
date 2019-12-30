@@ -8,6 +8,7 @@ import ISpriteProps from './interfaces/sprite-props';
 import PlayerResultEnum from './enums/player-result-enum';
 import SpriteTypeEnum from './enums/sprite-type-enum';
 import DirectionEnum from './enums/direction-enum';
+import ImageEnum from './enums/image-enum';
 import ISpaceInvadersProps from '../components/space-invaders/interfaces/space-invaders-props';
 
 import * as spritesData from './data/sprites'
@@ -22,6 +23,9 @@ export default class Game implements IGame {
 	public iteration: number;
 	public isGameInPlay: boolean;
 
+	private SPRITE_BLOCKS_WIDTH: number = 143;
+	// private SPRITE_BLOCKS_HEIGHT: number = 96;
+
 	constructor(config: ISpaceInvadersProps) {
 		this.player = new Player(config);
 		this.sprites = spritesData.default.map((sprite: ISpriteProps) => new Sprite(sprite));
@@ -35,16 +39,23 @@ export default class Game implements IGame {
 		switch (playerResult) {
 			case PlayerResultEnum.NO_MOVE:
 				return;
+			case PlayerResultEnum.ARROW_RIGHT:
+				this.move(DirectionEnum.RIGHT); break;
+			case PlayerResultEnum.ARROW_LEFT:
+				this.move(DirectionEnum.LEFT); break;
+			case PlayerResultEnum.ENTER:
+			case PlayerResultEnum.SPACE_BAR:
+				this.fire(); break;
 		}
 	}
 
-	public handleTimer = (spriteBlocksWidth: number, spriteBlocksHeight: number): void => {
+	public handleTimer = (): void => {
 		const aliveAliens = this.sprites.filter((sprite: ISprite) => sprite.visable && sprite.type === SpriteTypeEnum.ALIEN);
 		const furthestRightAlien = maxBy(aliveAliens, (alien: ISprite) => alien.x);
 		const furthestLeftAlien = minBy(aliveAliens, (alien: ISprite) => alien.x);
 		let nextDirection = this.direction;
 
-		if (furthestRightAlien && this.direction === DirectionEnum.RIGHT && furthestRightAlien.x + furthestRightAlien.width > spriteBlocksWidth) {
+		if (furthestRightAlien && this.direction === DirectionEnum.RIGHT && furthestRightAlien.x + furthestRightAlien.width > this.SPRITE_BLOCKS_WIDTH) {
 			this.direction = DirectionEnum.DOWN;
 			nextDirection = DirectionEnum.LEFT
 		}
@@ -56,5 +67,32 @@ export default class Game implements IGame {
 
 		aliveAliens.forEach((sprite: ISprite) => sprite.move(this.direction, this.player.x, this.player.y));
 		this.direction = nextDirection;
+	}
+
+	public handleBullet = () => {
+
+	}
+
+	private move = (direction: DirectionEnum): void => {
+		const result = this.player.move(direction, this.SPRITE_BLOCKS_WIDTH);
+
+		this.handleInput(result);
+	}
+
+	private fire = () => {
+		const bullet = this.sprites.filter(( sprite: ISprite) => sprite.key === 'bullet');
+
+		if (bullet.length > 0) return;
+
+		this.sprites.push(new Sprite({
+			key: 'bullet',
+			visable: true,
+			x: this.player.x + this.player.width / 2,
+			y: this.player.y - 2,
+			width: 1,
+			height: 2,
+			image: ImageEnum.BULLET,
+			type: SpriteTypeEnum.BULLET,
+		}))
 	}
 }

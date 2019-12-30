@@ -13,7 +13,8 @@ import './styles/space-invaders.scss';
 import PlayerResultEnum from 'classes/enums/player-result-enum';
 
 export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, IFSpaceInvadersState> {
-	private DEFAULT_TIMER_INTERVAL: number = 1000;
+	private DEFAULT_ALIEN_TIMER_INTERVAL: number = 1000;
+	private DEFAULT_BULLET_TIMER_INTERVAL: number = 100;
 	private SPRITE_BLOCKS_WIDTH: number = 143;
 	private SPRITE_BLOCKS_HEIGHT: number = 96;
 	private container: any;
@@ -121,21 +122,25 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 	private handleMobileButton = async (direction: PlayerResultEnum): Promise<void> => await this.handleInput(direction);
 
 	private startTimer = async (): Promise<void> => {
-		const timer = setInterval(this.myTimer, this.DEFAULT_TIMER_INTERVAL);
+		const timerAlien = setInterval(this.myAlienTimer, this.DEFAULT_ALIEN_TIMER_INTERVAL);
+		const timerBullet = setInterval(this.myBulletTimer, this.DEFAULT_BULLET_TIMER_INTERVAL);
 
-		await this.setState(() => ({ timer }));
+		await this.setState(() => ({ timerAlien, timerBullet }));
 	}
 
 	private stopTimer = async (): Promise<void> => {
-		clearInterval(this.state.timer);
+		clearInterval(this.state.timerAlien);
+		clearInterval(this.state.timerBullet);
 
-		await this.setState(() => ({ timer: undefined }));
+		await this.setState(() => ({ timerAlien: undefined, timerBullet: undefined }));
 	}
 
-	private myTimer = (): void => {
+	private myAlienTimer = (): void => {
 		const game = this.state.game
-		game.handleTimer(this.SPRITE_BLOCKS_WIDTH, this.SPRITE_BLOCKS_HEIGHT);
+		game.handleTimer();
 
 		this.setState(prev => ({ game }));
 	}
+
+	private myBulletTimer = (): void => this.state.game.handleBullet();
 }

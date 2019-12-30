@@ -17,7 +17,7 @@ export default interface IPlayer {
 	lives: number;
 	image: string;
 	isAlive: boolean;
-	move(direction: DirectionEnum): PlayerResultEnum;
+	move(direction: DirectionEnum, spriteBlocksWidth: number): PlayerResultEnum;
 	resetPlayerToStart(): void;
 	looseLife(): boolean;
 }

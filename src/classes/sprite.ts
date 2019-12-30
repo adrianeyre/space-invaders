@@ -12,6 +12,7 @@ import alien2b from '../images/alien2b.png';
 import alien3a from '../images/alien3a.png';
 import alien3b from '../images/alien3b.png';
 import shield from '../images/shield.png';
+import bullet from '../images/bullet.png';
 
 export default class Sprite implements ISprite {
 	public key: string;
@@ -41,6 +42,7 @@ export default class Sprite implements ISprite {
 		alien2: [alien2a, alien2b],
 		alien3: [alien3a, alien3b],
 		shield: [shield, shield],
+		bullet: [bullet, bullet],
 	}
 
 	constructor(config: ISpriteProps) {

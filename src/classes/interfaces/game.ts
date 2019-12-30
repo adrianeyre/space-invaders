@@ -12,5 +12,6 @@ export default interface IGame {
 	iteration: number;
 	isGameInPlay: boolean;
 	handleInput(playerResult: PlayerResultEnum): void;
-	handleTimer(spriteBlocksWidth: number, spriteBlocksHeight: number): void;
+	handleTimer(): void;
+	handleBullet(): void;
 }

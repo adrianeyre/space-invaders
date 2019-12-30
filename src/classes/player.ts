@@ -23,6 +23,7 @@ export default class Player implements IPlayer {
 	public image: string;
 	public isAlive: boolean;
 
+	readonly X_STEP: number = 5;
 	readonly INITIAL_PLAYER_LIVES: number = 3;
 	readonly INITIAL_PLAYER_X: number = 66;
 	readonly INITIAL_PLAYER_Y: number = 92;
@@ -55,7 +56,19 @@ export default class Player implements IPlayer {
 		this.isAlive = true;
 	}
 
-	public move = (direction: DirectionEnum): PlayerResultEnum => {
+	public move = (direction: DirectionEnum, spriteBlocksWidth: number): PlayerResultEnum => {
+		let x = this.x;
+
+		switch (direction) {
+			case DirectionEnum.LEFT: x -= this.X_STEP; break;
+			case DirectionEnum.RIGHT: x += this.X_STEP; break;
+		}
+
+		if (x < 1) x = 1;
+		if (x + this.width / 2 > spriteBlocksWidth) x = this.x;
+
+		this.x = x;
+
 		return PlayerResultEnum.NO_MOVE;
 	}
 
