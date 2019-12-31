@@ -4,7 +4,8 @@ enum StriteTypeEnum {
 	ALIEN2 = 2,
 	ALIEN3 = 3,
 	ALIEN4 = 4,
-	BULLET = 10,
+	PLAYER_BULLET = 10,
+	ALIEN_BULLET = 11,
 }
 
 export default StriteTypeEnum;

@@ -11,6 +11,8 @@ export default interface IGame {
 	timer: any;
 	iteration: number;
 	isGameInPlay: boolean;
+	alienTimerInterval: number;
+	bulletTimerInterval: number;
 	handleInput(playerResult: PlayerResultEnum): void;
 	handleTimer(): void;
 	handleBullet(): void;

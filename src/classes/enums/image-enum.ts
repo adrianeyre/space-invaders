@@ -3,7 +3,8 @@ enum ImageEnum {
 	ALIEN2 = 'alien2',
 	ALIEN3 = 'alien3',
 	SHIELD = 'shield',
-	BULLET = 'bullet',
+	PLAYER_BULLET = 'playerBullet',
+	ALIEN_BULLET = 'alienBullet',
 }
 
 export default ImageEnum;

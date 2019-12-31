@@ -12,8 +12,8 @@ const sprites: ISpriteProps[] = [
 		y: 0,
 		width: 1,
 		height: 2,
-		image: ImageEnum.BULLET,
-		type: SpriteTypeEnum.BULLET,
+		image: ImageEnum.PLAYER_BULLET,
+		type: SpriteTypeEnum.PLAYER_BULLET,
 	},
 	// Alien 1
 	{

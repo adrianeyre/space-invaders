@@ -8,4 +8,6 @@ export default interface ISpaceInvadersState {
 	containerHeight: number;
 	timerAlien?: any;
 	timerBullet?: any;
+	alienTimerInterval: number;
+	bulletTimerInterval: number;
 }

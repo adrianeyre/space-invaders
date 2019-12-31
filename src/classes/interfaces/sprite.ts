@@ -19,5 +19,5 @@ export default interface ISprite {
 	image: ImageEnum;
 	speed: number | undefined;
 	type: SpriteTypeEnum;
-	move(direction: DirectionEnum, playerX: number, playerY: number, playerHeight: number, playerWidth: number, visableSprites: ISprite[]): PlayerResultEnum;
+	move(direction: DirectionEnum, playerX: number, playerY: number, playerHeight: number, playerWidth: number, visableSprites: ISprite[], containerHeight: number): PlayerResultEnum;
 }

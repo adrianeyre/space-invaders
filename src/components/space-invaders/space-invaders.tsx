@@ -13,8 +13,8 @@ import './styles/space-invaders.scss';
 import PlayerResultEnum from 'classes/enums/player-result-enum';
 
 export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, ISpaceInvadersState> {
-	private DEFAULT_ALIEN_TIMER_INTERVAL: number = 1000;
-	private DEFAULT_BULLET_TIMER_INTERVAL: number = 20;
+	// private DEFAULT_ALIEN_TIMER_INTERVAL: number = 1000;
+	// private DEFAULT_BULLET_TIMER_INTERVAL: number = 20;
 	private SPRITE_BLOCKS_WIDTH: number = 143;
 	private SPRITE_BLOCKS_HEIGHT: number = 96;
 	private container: any;
@@ -27,6 +27,8 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 			spriteHeight: 0,
 			containerWidth: 800,
 			containerHeight: 800,
+			bulletTimerInterval: 0,
+			alienTimerInterval: 0,
 			game: new Game(this.props),
 		}
 
@@ -122,10 +124,12 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 	private handleMobileButton = async (direction: PlayerResultEnum): Promise<void> => await this.handleInput(direction);
 
 	private startTimer = async (): Promise<void> => {
-		const timerAlien = setInterval(this.myAlienTimer, this.DEFAULT_ALIEN_TIMER_INTERVAL);
-		const timerBullet = setInterval(this.myBulletTimer, this.DEFAULT_BULLET_TIMER_INTERVAL);
+		const alienTimerInterval = this.state.game.alienTimerInterval;
+		const bulletTimerInterval = this.state.game.bulletTimerInterval;
+		const timerAlien = setInterval(this.myAlienTimer, this.state.game.alienTimerInterval);
+		const timerBullet = setInterval(this.myBulletTimer, this.state.game.bulletTimerInterval);
 
-		await this.setState(() => ({ timerAlien, timerBullet }));
+		await this.setState(() => ({ timerAlien, timerBullet, alienTimerInterval, bulletTimerInterval }));
 	}
 
 	private stopTimer = async (): Promise<void> => {
@@ -138,6 +142,7 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 	private myAlienTimer = (): void => {
 		const game = this.state.game
 		game.handleTimer();
+		this.handleTimerUpdates();
 
 		this.setState(prev => ({ game }));
 	}
@@ -145,7 +150,15 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 	private myBulletTimer = (): void => {
 		const game = this.state.game
 		game.handleBullet();
+		this.handleTimerUpdates();
 
 		this.setState(prev => ({ game }));
+	}
+
+	private handleTimerUpdates = () => {
+		if (this.state.alienTimerInterval === this.state.game.alienTimerInterval && this.state.bulletTimerInterval === this.state.game.bulletTimerInterval) return;
+
+		this.stopTimer();
+		this.startTimer();
 	}
 }

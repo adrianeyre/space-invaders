@@ -12,7 +12,8 @@ import alien2b from '../images/alien2b.png';
 import alien3a from '../images/alien3a.png';
 import alien3b from '../images/alien3b.png';
 import shield from '../images/shield.png';
-import bullet from '../images/bullet.png';
+import playerBullet from '../images/player-bullet.png';
+import alienBullet from '../images/alien-bullet.png';
 
 export default class Sprite implements ISprite {
 	public key: string;
@@ -44,7 +45,8 @@ export default class Sprite implements ISprite {
 		alien2: [alien2a, alien2b],
 		alien3: [alien3a, alien3b],
 		shield: [shield, shield],
-		bullet: [bullet, bullet],
+		playerBullet: [playerBullet, playerBullet],
+		alienBullet: [alienBullet, alienBullet],
 	}
 
 	constructor(config: ISpriteProps) {
@@ -67,7 +69,15 @@ export default class Sprite implements ISprite {
 		this.type = config.type;
 	}
 
-	public move = (direction: DirectionEnum, playerX: number, playerY: number, playerHeight: number, playerWidth: number, visableSprites: ISprite[]): PlayerResultEnum => {
+	public move = (
+		direction: DirectionEnum,
+		playerX: number,
+		playerY: number,
+		playerHeight: number,
+		playerWidth: number,
+		visableSprites: ISprite[],
+		containerHeight: number
+	): PlayerResultEnum => {
 		if (!this.movable) return PlayerResultEnum.NO_MOVE;
 
 		switch (direction) {
@@ -77,21 +87,36 @@ export default class Sprite implements ISprite {
 			case DirectionEnum.RIGHT: this.x += this.xStep; break;
 		}
 
-		if (this.y < 1) this.visable = false;
+		if (this.y > containerHeight) {
+			this.visable = false;
+			return PlayerResultEnum.SPRITE_DEAD;
+		}
+
+		if (this.y < 1 ) this.visable = false;
 
 		this.updateImage();
 
 		return this.checkClash(playerX, playerY, playerHeight, playerWidth, visableSprites);
 	}
 
-	private checkClash = (playerX: number, playerY: number, playerHeight: number, playerWidth: number, visableSprites: ISprite[]): PlayerResultEnum => {
-		if (this.isClashed('', playerX, playerY, playerHeight, playerWidth)) return PlayerResultEnum.DEAD;
+	private checkClash = (
+		playerX: number,
+		playerY: number,
+		playerHeight: number,
+		playerWidth: number,
+		visableSprites: ISprite[]
+	): PlayerResultEnum => {
+		if (this.isClashed('', playerX, playerY, playerHeight, playerWidth)) return PlayerResultEnum.PLAYER_DEAD;
 
 		const overlappingSprites = visableSprites.filter((sprite: ISprite) => this.isClashed(sprite.key, sprite.x, sprite.y, sprite.height, sprite.width));
 
 		if (overlappingSprites.length > 0) {
 			overlappingSprites[0].visable = false;
-			if (this.type === SpriteTypeEnum.BULLET) this.visable = false;
+			if (this.type === SpriteTypeEnum.ALIEN_BULLET) {
+				this.visable = false;
+				return PlayerResultEnum.SPRITE_DEAD;
+			}
+			if (this.type === SpriteTypeEnum.PLAYER_BULLET) this.visable = false;
 
 			switch (overlappingSprites[0].type) {
 				case SpriteTypeEnum.ALIEN1: return PlayerResultEnum.ALIEN1_POINTS;
