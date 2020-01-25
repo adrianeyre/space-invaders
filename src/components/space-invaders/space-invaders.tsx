@@ -13,8 +13,6 @@ import './styles/space-invaders.scss';
 import PlayerResultEnum from 'classes/enums/player-result-enum';
 
 export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, ISpaceInvadersState> {
-	// private DEFAULT_ALIEN_TIMER_INTERVAL: number = 1000;
-	// private DEFAULT_BULLET_TIMER_INTERVAL: number = 20;
 	private SPRITE_BLOCKS_WIDTH: number = 143;
 	private SPRITE_BLOCKS_HEIGHT: number = 96;
 	private container: any;
@@ -27,6 +25,7 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 			spriteHeight: 0,
 			containerWidth: 800,
 			containerHeight: 800,
+			containerMargin: 0,
 			bulletTimerInterval: 0,
 			alienTimerInterval: 0,
 			game: new Game(this.props),
@@ -68,6 +67,7 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 
 	private styleContainer = () => ({
 		maxWidth: `${ this.state.containerHeight }px`,
+		marginLeft: `${ this.state.containerMargin }px`
 	})
 
 	private styleStatusTop = () => ({
@@ -101,10 +101,11 @@ export default class SpaceInvaders extends React.Component<ISpaceInvadersProps, 
 	private updatePlayerArea = (): void => {
 		const containerHeight = this.container && this.container.getBoundingClientRect().height;
 		let containerWidth = this.container && this.container.getBoundingClientRect().width;
+		const containerMargin = (window.innerWidth - containerHeight) / 2;
 		if (containerWidth > containerHeight) containerWidth = containerHeight;
 		const spriteWidth = containerWidth / this.SPRITE_BLOCKS_WIDTH;
 		const spriteHeight = ((containerWidth / 100) * 85 ) / this.SPRITE_BLOCKS_HEIGHT;
-		this.setState(() => ({ spriteWidth, spriteHeight, containerWidth, containerHeight }))
+		this.setState(() => ({ spriteWidth, spriteHeight, containerWidth, containerHeight, containerMargin }))
 	}
 
 	private handleInput = async (input: PlayerResultEnum): Promise<void> => {

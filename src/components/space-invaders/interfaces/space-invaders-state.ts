@@ -6,6 +6,7 @@ export default interface ISpaceInvadersState {
 	spriteHeight: number;
 	containerWidth: number
 	containerHeight: number;
+	containerMargin: number;
 	timerAlien?: any;
 	timerBullet?: any;
 	alienTimerInterval: number;
