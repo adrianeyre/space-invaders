@@ -1,45 +1,43 @@
-import React from 'react';
+import React, { FC, useEffect } from 'react';
 
 import IDrawSpriteProps from './interfaces/draw-sprite-props';
 
-export default class DrawSprite extends React.Component<IDrawSpriteProps, {}> {
-	private offsetHeight: number = 0;
-	private offsetWidth: number = 0;
+const DrawSprite: FC<IDrawSpriteProps> = (props: IDrawSpriteProps) => {
+	let offsetHeight = 0;
+	let offsetWidth  = 0;
 
-	constructor(props: IDrawSpriteProps) {
-		super(props);
-
-		this.updateOffSets();
-	}
-
-	public componentDidUpdate() {
-		this.updateOffSets();
-	}
-
-	public render() {
-		if (!this.props.sprite.visable) return <div></div>
-
-		return <div key={ this.props.sprite.key } style={ this.styleSprite(this.props.sprite.x, this.props.sprite.y) }>
-			<img
-				src={ this.props.sprite.image }
-				height={ this.props.height * this.props.sprite.height }
-				width={ this.props.width * this.props.sprite.width }
-				alt="sprite"
-			/>
-		</div>
-	}
-
-	private styleSprite = (x: number, y: number) => ({
+	const styleSprite = (x: number, y: number) => ({
 		width: 0,
 		height: 0,
 		opacity: 1,
-		WebkitTransform: `translate3d(${ (x - 1) * this.props.width + this.offsetWidth }px, ${ this.offsetHeight + (y - 1) * this.props.height }px, 0)`,
-		transform: `translate3d(${ (x - 1) * this.props.width + this.offsetWidth }px, ${ this.offsetHeight + (y - 1) * this.props.height }px, 0)`,
-		zIndex: this.props.sprite.zIndex,
+		WebkitTransform: `translate3d(${ (x - 1) * props.width + offsetWidth }px, ${ offsetHeight + (y - 1) * props.height }px, 0)`,
+		transform: `translate3d(${ (x - 1) * props.width + offsetWidth }px, ${ offsetHeight + (y - 1) * props.height }px, 0)`,
+		zIndex: props.sprite.zIndex,
 	})
 
-	private updateOffSets = () => {
-		this.offsetHeight = ((this.props.containerWidth / 100) * 9);
-		this.offsetWidth = this.props.sprite.xOffset ? -this.props.width / 2 : 0;
+	const updateOffSets = () => {
+		offsetHeight = ((props.containerWidth / 100) * 9);
+		offsetWidth = props.sprite.xOffset ? -props.width / 2 : 0;
 	}
+
+	useEffect(() => {
+        const runUpdateOffSets = async (): Promise<void> => {
+            updateOffSets();
+        }
+
+        runUpdateOffSets();
+    }, []);
+
+	if (!props.sprite.visable) return <div></div>
+
+	return <div key={ props.sprite.key } style={ styleSprite(props.sprite.x, props.sprite.y) }>
+		<img
+			src={ props.sprite.image }
+			height={ props.height * props.sprite.height }
+			width={ props.width * props.sprite.width }
+			alt="sprite"
+		/>
+	</div>
 }
+
+export default DrawSprite;

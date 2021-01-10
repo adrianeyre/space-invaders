@@ -6,7 +6,14 @@ import 'react-app-polyfill/stable';
 import SpaceInvaders from './components/space-invaders/space-invaders';
 
 import './index.scss';
-import * as serviceWorker from './serviceWorker';
+import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(<SpaceInvaders />, document.getElementById('root'));
-serviceWorker.unregister();
+ReactDOM.render(
+    <React.StrictMode>
+        <SpaceInvaders />
+    </React.StrictMode>,
+    document.getElementById('root')
+);
+
+reportWebVitals();
+
