@@ -44,7 +44,7 @@ describe('Sprite', () => {
 	it('Should move sprite and not clash with player', () => {
 		const sprite = new Sprite(defaultConfig);
 		const sprites = [new Sprite(defaultConfig)]
-		const result = sprite.move(0, 1, 1, 1, 1, sprites);
+		const result = sprite.move(0, 1, 1, 1, 1, sprites, 1);
 
 		expect(result).toEqual(PlayerResultEnum.NO_MOVE);
 	});
