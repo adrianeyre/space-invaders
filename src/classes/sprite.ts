@@ -1,5 +1,5 @@
-import ISpriteProps from './interfaces/sprite-props';
-import ISprite from './interfaces/sprite';
+import type ISpriteProps from './interfaces/sprite-props';
+import type ISprite from './interfaces/sprite';
 import DirectionEnum from './enums/direction-enum';
 import PlayerResultEnum from './enums/player-result-enum';
 import SpriteTypeEnum from './enums/sprite-type-enum';
@@ -29,25 +29,25 @@ export default class Sprite implements ISprite {
 	public movable: boolean;
 	public zIndex: number;
 	public direction: DirectionEnum | undefined;
-	public image: ImageEnum;
+	public image: string;
 	public speed: number | undefined;
 	public type: SpriteTypeEnum;
 
 	private imageOn: boolean;
-	private imageType: string;
+	private imageType: ImageEnum;
 
 	readonly X_OFFSET: boolean = false;
 	readonly Z_INDEX: number = 5000;
 	readonly X_STEP: number = 5;
 	readonly Y_STEP: number = 2;
-	readonly playerImages = {
+	readonly playerImages: Record<ImageEnum, string[]> = {
 		alien1: [alien1a, alien1b],
 		alien2: [alien2a, alien2b],
 		alien3: [alien3a, alien3b],
 		shield: [shield, shield],
 		playerBullet: [playerBullet, playerBullet],
 		alienBullet: [alienBullet, alienBullet],
-	}
+	};
 
 	constructor(config: ISpriteProps) {
 		this.imageOn = true;
@@ -81,10 +81,18 @@ export default class Sprite implements ISprite {
 		if (!this.movable) return PlayerResultEnum.NO_MOVE;
 
 		switch (direction) {
-			case DirectionEnum.UP: this.y -= this.yStep; break;
-			case DirectionEnum.DOWN: this.y += this.yStep; break;
-			case DirectionEnum.LEFT: this.x -= this.xStep; break;
-			case DirectionEnum.RIGHT: this.x += this.xStep; break;
+			case DirectionEnum.UP:
+				this.y -= this.yStep;
+				break;
+			case DirectionEnum.DOWN:
+				this.y += this.yStep;
+				break;
+			case DirectionEnum.LEFT:
+				this.x -= this.xStep;
+				break;
+			case DirectionEnum.RIGHT:
+				this.x += this.xStep;
+				break;
 		}
 
 		if (this.y > containerHeight) {
@@ -92,12 +100,12 @@ export default class Sprite implements ISprite {
 			return PlayerResultEnum.SPRITE_DEAD;
 		}
 
-		if (this.y < 1 ) this.visable = false;
+		if (this.y < 1) this.visable = false;
 
 		this.updateImage();
 
 		return this.checkClash(playerX, playerY, playerHeight, playerWidth, visableSprites);
-	}
+	};
 
 	private checkClash = (
 		playerX: number,
@@ -108,7 +116,9 @@ export default class Sprite implements ISprite {
 	): PlayerResultEnum => {
 		if (this.isClashed('', playerX, playerY, playerHeight, playerWidth)) return PlayerResultEnum.PLAYER_DEAD;
 
-		const overlappingSprites = visableSprites.filter((sprite: ISprite) => this.isClashed(sprite.key, sprite.x, sprite.y, sprite.height, sprite.width));
+		const overlappingSprites = visableSprites.filter((sprite: ISprite) =>
+			this.isClashed(sprite.key, sprite.x, sprite.y, sprite.height, sprite.width)
+		);
 
 		if (overlappingSprites.length > 0) {
 			overlappingSprites[0].visable = false;
@@ -119,35 +129,26 @@ export default class Sprite implements ISprite {
 			if (this.type === SpriteTypeEnum.PLAYER_BULLET) this.visable = false;
 
 			switch (overlappingSprites[0].type) {
-				case SpriteTypeEnum.ALIEN1: return PlayerResultEnum.ALIEN1_POINTS;
-				case SpriteTypeEnum.ALIEN2: return PlayerResultEnum.ALIEN2_POINTS;
-				case SpriteTypeEnum.ALIEN3: return PlayerResultEnum.ALIEN3_POINTS;
-				case SpriteTypeEnum.ALIEN4: return PlayerResultEnum.ALIEN4_POINTS;
+				case SpriteTypeEnum.ALIEN1:
+					return PlayerResultEnum.ALIEN1_POINTS;
+				case SpriteTypeEnum.ALIEN2:
+					return PlayerResultEnum.ALIEN2_POINTS;
+				case SpriteTypeEnum.ALIEN3:
+					return PlayerResultEnum.ALIEN3_POINTS;
+				case SpriteTypeEnum.ALIEN4:
+					return PlayerResultEnum.ALIEN4_POINTS;
 			}
 		}
 
-		return PlayerResultEnum.NO_MOVE
-	}
+		return PlayerResultEnum.NO_MOVE;
+	};
 
 	private isClashed = (key: string, x: number, y: number, height: number, width: number) =>
-	(
-		this.key !== key &&
-		this.x + this.width > x &&
-		this.x < x && 
-		this.y + this.height > y &&
-		this.y < y
-	)
-	||
-	(
-		this.key !== key &&
-		this.x >= x &&
-		this.x < x + width &&
-		this.y >= y &&
-		this.y < y + height
-	)
+		(this.key !== key && this.x + this.width > x && this.x < x && this.y + this.height > y && this.y < y) ||
+		(this.key !== key && this.x >= x && this.x < x + width && this.y >= y && this.y < y + height);
 
 	private updateImage = () => {
 		this.imageOn = !this.imageOn;
 		this.image = this.playerImages[this.imageType][this.imageOn ? 0 : 1];
-	}
+	};
 }

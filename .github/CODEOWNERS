@@ -1,0 +1,5 @@
+# Every path in this repository is owned by @adrianeyre, so every pull request
+# requests his review automatically. A single catch-all line is deliberate: the
+# game, its build and its workflows are maintained by one person, and listing
+# directories separately would only create the illusion of divided ownership.
+*   @adrianeyre

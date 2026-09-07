@@ -1,5 +1,5 @@
-import IPlayer from './player';
-import ISprite from './sprite';
+import type IPlayer from './player';
+import type ISprite from './sprite';
 import PlayerResultEnum from '../enums/player-result-enum';
 import DirectionEnum from '../enums/direction-enum';
 
