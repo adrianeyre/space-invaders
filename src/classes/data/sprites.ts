@@ -1,6 +1,6 @@
 import ImageEnum from '../enums/image-enum';
 import SpriteTypeEnum from '../enums/sprite-type-enum';
-import ISpriteProps from '../interfaces/sprite-props';
+import type ISpriteProps from '../interfaces/sprite-props';
 
 const sprites: ISpriteProps[] = [
 	// Bullet
@@ -1983,6 +1983,6 @@ const sprites: ISpriteProps[] = [
 		image: ImageEnum.SHIELD,
 		type: SpriteTypeEnum.SHIELD,
 	},
-]
+];
 
-export default sprites
+export default sprites;

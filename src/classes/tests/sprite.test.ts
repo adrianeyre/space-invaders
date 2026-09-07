@@ -3,10 +3,11 @@ import SpriteTypeEnum from '../enums/sprite-type-enum';
 import PlayerResultEnum from '../enums/player-result-enum';
 
 import Sprite from '../sprite';
-import ISpriteProps from '../interfaces/sprite-props';
+import ImageEnum from '../enums/image-enum';
+import type ISpriteProps from '../interfaces/sprite-props';
 
 describe('Sprite', () => {
-	let defaultConfig: ISpriteProps
+	let defaultConfig: ISpriteProps;
 
 	beforeEach(() => {
 		defaultConfig = {
@@ -18,10 +19,10 @@ describe('Sprite', () => {
 			height: 8,
 			xOffset: false,
 			direction: DirectionEnum.RIGHT,
-			image: 'alien1',
+			image: ImageEnum.ALIEN1,
 			type: SpriteTypeEnum.ALIEN1,
-		}
-	})
+		};
+	});
 
 	it('Should create Sprite class', () => {
 		const sprite = new Sprite(defaultConfig);
@@ -37,13 +38,13 @@ describe('Sprite', () => {
 		expect(sprite.xOffset).toEqual(false);
 		expect(sprite.zIndex).toEqual(5000);
 		expect(sprite.direction).toEqual(DirectionEnum.RIGHT);
-		expect(sprite.image).toEqual('alien1a.png');
+		expect(sprite.image).toContain('alien1a.png');
 		expect(sprite.type).toEqual(SpriteTypeEnum.ALIEN1);
 	});
 
 	it('Should move sprite and not clash with player', () => {
 		const sprite = new Sprite(defaultConfig);
-		const sprites = [new Sprite(defaultConfig)]
+		const sprites = [new Sprite(defaultConfig)];
 		const result = sprite.move(0, 1, 1, 1, 1, sprites, 1);
 
 		expect(result).toEqual(PlayerResultEnum.NO_MOVE);

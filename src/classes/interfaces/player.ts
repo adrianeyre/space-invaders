@@ -11,7 +11,7 @@ export default interface IPlayer {
 	initialPlayerX: number;
 	initialPlayerY: number;
 	xOffset: boolean;
-	zIndex: number
+	zIndex: number;
 	direction: DirectionEnum;
 	score: number;
 	lives: number;
@@ -20,5 +20,5 @@ export default interface IPlayer {
 	move(direction: DirectionEnum, spriteBlocksWidth: number): PlayerResultEnum;
 	resetPlayerToStart(): void;
 	looseLife(): boolean;
-	addScore(extra: number): number
+	addScore(extra: number): number;
 }

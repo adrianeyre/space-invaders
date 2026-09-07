@@ -1,6 +1,6 @@
-import ISpaceInvadersProps from '../components/space-invaders/interfaces/space-invaders-props';
+import type ISpaceInvadersProps from '../components/space-invaders/interfaces/space-invaders-props';
 
-import IPlayer from './interfaces/player';
+import type IPlayer from './interfaces/player';
 import DirectionEnum from './enums/direction-enum';
 import PlayerResultEnum from './enums/player-result-enum';
 
@@ -16,7 +16,7 @@ export default class Player implements IPlayer {
 	public initialPlayerX: number;
 	public initialPlayerY: number;
 	public xOffset: boolean;
-	public zIndex: number
+	public zIndex: number;
 	public direction: DirectionEnum;
 	public score: number;
 	public lives: number;
@@ -31,12 +31,7 @@ export default class Player implements IPlayer {
 	readonly PLATER_HEIGHT: number = 4;
 	readonly X_OFFSET: boolean = false;
 	readonly PLAYER_ZINDEX: number = 6000;
-	readonly playerImages: string[] = [
-		player,
-		player,
-		player,
-		player,
-	]
+	readonly playerImages: string[] = [player, player, player, player];
 
 	constructor(config: ISpaceInvadersProps) {
 		this.key = 'player';
@@ -60,8 +55,12 @@ export default class Player implements IPlayer {
 		let x = this.x;
 
 		switch (direction) {
-			case DirectionEnum.LEFT: x -= this.X_STEP; break;
-			case DirectionEnum.RIGHT: x += this.X_STEP; break;
+			case DirectionEnum.LEFT:
+				x -= this.X_STEP;
+				break;
+			case DirectionEnum.RIGHT:
+				x += this.X_STEP;
+				break;
 		}
 
 		if (x < 1) x = 1;
@@ -70,18 +69,18 @@ export default class Player implements IPlayer {
 		this.x = x;
 
 		return PlayerResultEnum.NO_MOVE;
-	}
+	};
 
 	public resetPlayerToStart = () => {
 		this.x = this.initialPlayerX;
 		this.y = this.initialPlayerY;
-	}
+	};
 
 	public looseLife = (): boolean => {
-		this.lives --;
+		this.lives--;
 
 		return this.lives > 0;
-	}
+	};
 
-	public addScore = (extra: number): number => this.score += extra;
+	public addScore = (extra: number): number => (this.score += extra);
 }

@@ -1,20 +1,32 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
 
-import IMobileButtonsProps from './interfaces/mobile-buttons-props'
+import type IMobileButtonsProps from './interfaces/mobile-buttons-props';
 import PlayerResultEnum from '../../classes/enums/player-result-enum';
 
 import './styles/mobile-buttons.scss';
 
 const MobileButtons: FC<IMobileButtonsProps> = (props: IMobileButtonsProps) => {
-	return <div className="mobile-buttons">
-		<div className="button-row">
-			<button className="left-button" type="button" onClick={ () => props.handleMobileButton(PlayerResultEnum.ARROW_LEFT) }>LEFT</button>
-			<button type="button" onClick={ () => props.handleMobileButton(PlayerResultEnum.ARROW_RIGHT) }>RIGHT</button>
+	return (
+		<div className="mobile-buttons">
+			<div className="button-row">
+				<button
+					className="left-button"
+					type="button"
+					onClick={() => props.handleMobileButton(PlayerResultEnum.ARROW_LEFT)}
+				>
+					LEFT
+				</button>
+				<button type="button" onClick={() => props.handleMobileButton(PlayerResultEnum.ARROW_RIGHT)}>
+					RIGHT
+				</button>
+			</div>
+			<div className="button-row">
+				<button type="button" onClick={() => props.handleMobileButton(PlayerResultEnum.SPACE_BAR)}>
+					FIRE!
+				</button>
+			</div>
 		</div>
-		<div className="button-row">
-			<button type="button" onClick={ () => props.handleMobileButton(PlayerResultEnum.SPACE_BAR) }>FIRE!</button>
-		</div>
-	</div>
-}
+	);
+};
 
 export default MobileButtons;

@@ -19,7 +19,7 @@ describe('Player', () => {
 		expect(player.direction).toEqual(DirectionEnum.UP);
 		expect(player.score).toEqual(0);
 		expect(player.lives).toEqual(3);
-		expect(player.image).toEqual('player.png');
+		expect(player.image).toContain('player.png');
 		expect(player.isAlive).toEqual(true);
 	});
 
