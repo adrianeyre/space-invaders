@@ -2,7 +2,7 @@
   "name": "space-invaders",
   "version": "1.0.0",
   "private": false,
-  "description": "Space Invaders \u2014 the 1978 fixed shooter, rebuilt in TypeScript and React",
+  "description": "Space Invaders — the 1978 fixed shooter, rebuilt in TypeScript and React",
   "keywords": [
     "space-invaders",
     "game",
