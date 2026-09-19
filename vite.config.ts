@@ -1,12 +1,14 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-// GitHub Pages serves this project from https://adrianeyre.github.io/space-invaders/,
-// so every asset URL has to carry that prefix. It is a repository fact rather than a
-// build choice: the deploy in .github/workflows/release.yml publishes to the project
-// page, not the user page, and a bare '/' base would ask the browser for
-// /assets/... at the domain root and get the 404 page instead of the game.
-const base = process.env.VITE_BASE ?? '/space-invaders/';
+// The site is served from https://space-invaders.adrianeyre.co.uk/, a custom domain whose
+// root *is* the site, so assets live at /assets/... and the base is '/'. It used to be
+// '/space-invaders/' for the github.io project page, where the repository name was part of
+// every URL; keeping that prefix after the cutover asked the browser for
+// /space-invaders/assets/... on a domain that has nothing there, which is the 404s on the
+// JS and CSS. Override with VITE_BASE to build for a different mount point — including
+// VITE_BASE=/space-invaders/ to reproduce the old project-page layout.
+const base = process.env.VITE_BASE ?? '/';
 
 export default defineConfig({
 	base,

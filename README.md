@@ -39,11 +39,13 @@ $ npm start
 | `npm test` | Run the Vitest suite once |
 | `npm run test:watch` | Run Vitest in watch mode |
 
-The site is built with a base path of `/space-invaders/` because GitHub Pages serves it
-from a project page. To build for a different mount point, set `VITE_BASE`:
+The site is built with a base path of `/` because it is served from the custom domain
+[space-invaders.adrianeyre.co.uk](https://space-invaders.adrianeyre.co.uk/), whose root is
+the site itself. To build for a different mount point — a `github.io` project page, say,
+where the repository name is part of every URL — set `VITE_BASE`:
 
 ```shell
-$ VITE_BASE=/ npm run build
+$ VITE_BASE=/space-invaders/ npm run build
 ```
 
 ## <a name="Shots">Screen Shots</a>
@@ -52,5 +54,4 @@ $ VITE_BASE=/ npm run build
 [![Screenshot](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot2.png)](https://raw.githubusercontent.com/adrianeyre/space-invaders/master/src/images/screenshot2.png "Game View")
 
 ## <a name="Play">Play Space Invaders</a>
-* [Space Invaders on GitHub Pages](https://adrianeyre.github.io/space-invaders/)
-* [Space Invaders](http://adrianeyre.co.uk/space-invaders)
+* [Space Invaders](https://space-invaders.adrianeyre.co.uk/)
