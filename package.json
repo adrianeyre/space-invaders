@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/adrianeyre/space-invaders/issues"
   },
-  "homepage": "https://space-invaders.adrianeyre.co.uk/",
+  "homepage": "https://adrianeyre.github.io/space-invaders/",
   "type": "module",
   "engines": {
     "node": ">=26"
